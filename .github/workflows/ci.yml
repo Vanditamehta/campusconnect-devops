@@ -30,9 +30,11 @@ jobs:
           test -f static/js/script.js
 
       - name: Run tests
+        env:
+          PYTHONPATH: .
         run: |
           if [ -d tests ]; then
-            pytest -q
+            python -m pytest -q
           else
             echo "No tests folder yet — skipping for now"
           fi
