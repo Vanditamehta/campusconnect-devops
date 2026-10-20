@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CampusConnect - My Profile</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>CampusConnect</h1>
+    <h2>Create Your Profile</h2>
+
+    <form id="profileForm">
+      <input type="text" id="name" placeholder="Full Name" required>
+      <input type="text" id="headline" placeholder="Headline (e.g. B.Tech DevOps Student)" required>
+      <input type="text" id="skills" placeholder="Skills (comma separated)" required>
+      <textarea id="bio" placeholder="Short Bio" rows="3"></textarea>
+      <button type="submit">Save Profile</button>
+    </form>
+
+    <div id="profileDisplay" class="profile-card hidden">
+      <h3 id="displayName"></h3>
+      <p id="displayHeadline"></p>
+      <p><strong>Skills:</strong> <span id="displaySkills"></span></p>
+      <p id="displayBio"></p>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
