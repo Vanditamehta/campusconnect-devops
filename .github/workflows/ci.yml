@@ -15,6 +15,7 @@ jobs:
   test:
     name: Python checks and tests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code
@@ -28,21 +29,41 @@ jobs:
           cache-dependency-path: requirements.txt
 
       - name: Install dependencies
+        shell: bash
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
+          if [ -f requirements.txt ]; then
+            python -m pip install -r requirements.txt
+          else
+            echo "requirements.txt not found"
+            exit 1
+          fi
 
       - name: Validate required files
+        shell: bash
         run: |
-          for f in app.py database.py templates/index.html static/css/style.css static/js/script.js; do
-            test -f "$f" || { echo "Missing required file: $f"; exit 1; }
+          required_files=(
+            app.py
+            database.py
+            templates/index.html
+            static/css/style.css
+            static/js/script.js
+          )
+
+          for f in "${required_files[@]}"; do
+            if [ ! -f "$f" ]; then
+              echo "Missing required file: $f"
+              exit 1
+            fi
           done
 
       - name: Check Python syntax
+        shell: bash
         run: |
           python -m py_compile app.py database.py
 
       - name: Run tests
+        shell: bash
         run: |
           if [ -d tests ] || ls test*.py >/dev/null 2>&1; then
             python -m pytest -v
