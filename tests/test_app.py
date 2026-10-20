@@ -4,13 +4,14 @@ from app import app, database
 
 
 @pytest.fixture
-def client():
-    original_db_name = database.DB_NAME
-    database.DB_NAME = ':memory:'
+def client(tmp_path, monkeypatch):
+    test_db = tmp_path / "test.db"
+    monkeypatch.setattr(database, "DB_NAME", str(test_db))
     database.init_db()
 
     with app.test_client() as test_client:
         yield test_client
+
 
     database.DB_NAME = original_db_name
 
