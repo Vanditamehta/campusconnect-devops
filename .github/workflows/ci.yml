@@ -1,24 +1,35 @@
-
 name: CampusConnect CI
 
-on:
-  push:
-    branches: [main, "feature/**"]
-  pull_request:
-    branches: [main]
+on: [push, pull_request]
 
 jobs:
   check:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
       - name: Check required files
         run: |
-          test -f index.html
-          test -f style.css
-          test -f script.js
-          echo "Required files found"
+          test -f app.py
+          test -f templates/index.html
+          test -f static/css/style.css
+          test -f static/js/script.js
+
+      - name: Run tests
+        run: |
+          if [ -d tests ]; then
+            pip install pytest
+            pytest
+          else
+            echo "No tests folder yet — skipping for now"
+          fi
 
