@@ -2,30 +2,76 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>CampusConnect - My Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CampusConnect – Profile</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>CampusConnect</h1>
-    <h2>Create Your Profile</h2>
+  <header class="topbar">
+    <a class="brand" href="index.html">CampusConnect</a>
+    <nav aria-label="Main">
+      <a href="index.html" class="active">Profile</a>
+      <a href="#projects">Projects</a>
+      <a href="#achievements">Achievements</a>
+      <a href="#">Faculty</a>
+      <a href="#">Opportunities</a>
+    </nav>
+  </header>
 
-    <form id="profileForm">
-      <input type="text" id="name" placeholder="Full Name" required>
-      <input type="text" id="headline" placeholder="Headline (e.g. B.Tech DevOps Student)" required>
-      <input type="text" id="skills" placeholder="Skills (comma separated)" required>
-      <textarea id="bio" placeholder="Short Bio" rows="3"></textarea>
-      <button type="submit">Save Profile</button>
-    </form>
+  <main>
+    <section class="profile-card" aria-labelledby="student-name">
+      <div class="avatar" id="avatar" aria-hidden="true"></div>
+      <div class="profile-info">
+        <h1 id="student-name"></h1>
+        <p class="spec" id="student-spec"></p>
+        <p class="bio" id="student-bio"></p>
+        <div class="stats">
+          <span><strong id="followers">0</strong> followers</span>
+          <span><strong id="following">0</strong> following</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="follow-btn" class="btn primary" type="button">Follow</button>
+        <button id="edit-btn" class="btn" type="button">Edit profile</button>
+      </div>
+    </section>
 
-    <div id="profileDisplay" class="profile-card hidden">
-      <h3 id="displayName"></h3>
-      <p id="displayHeadline"></p>
-      <p><strong>Skills:</strong> <span id="displaySkills"></span></p>
-      <p id="displayBio"></p>
+    <section id="edit-panel" class="panel hidden" aria-label="Edit profile">
+      <h2>Edit profile</h2>
+      <label>Name <input id="in-name" type="text"></label>
+      <label>Specialization <input id="in-spec" type="text"></label>
+      <label>Bio <textarea id="in-bio" rows="3"></textarea></label>
+      <p class="error" id="edit-error" role="alert"></p>
+      <div class="row">
+        <button id="save-btn" class="btn primary" type="button">Save changes</button>
+        <button id="cancel-btn" class="btn" type="button">Cancel</button>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="panel" aria-labelledby="skills-h">
+        <h2 id="skills-h">Skills</h2>
+        <ul id="skills" class="chips"></ul>
+        <div class="row">
+          <input id="skill-input" type="text" placeholder="Add a skill, e.g. Python" aria-label="New skill">
+          <button id="skill-btn" class="btn" type="button">Add skill</button>
+        </div>
+        <p class="error" id="skill-error" role="alert"></p>
+      </section>
+
+      <section class="panel" id="achievements" aria-labelledby="ach-h">
+        <h2 id="ach-h">Achievements</h2>
+        <ul id="achievement-list" class="timeline"></ul>
+      </section>
     </div>
-  </div>
 
+    <section class="panel" id="projects" aria-labelledby="proj-h">
+      <h2 id="proj-h">Project ideas looking for teammates</h2>
+      <div id="project-list" class="projects"></div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="script.js"></script>
 </body>
 </html>
