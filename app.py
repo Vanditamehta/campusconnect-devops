@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS
 import database
 
 app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 @app.route('/')
 def home():
@@ -10,6 +12,9 @@ def home():
 @app.route('/api/profile', methods=['POST'])
 def create_profile():
     data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid JSON payload"}), 400
+
     database.save_profile(
         data.get('name'),
         data.get('headline'),
